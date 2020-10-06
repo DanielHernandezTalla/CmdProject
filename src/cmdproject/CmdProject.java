@@ -5,26 +5,50 @@ import java.util.Scanner;
 
 public class CmdProject {
 
+    static enum Options{
+        undefined,
+        vacio,
+        dir,
+        cd,
+        end,
+        clear,
+        toBack
+    }
+    
     public static void main(String[] args) {
                        
         ControllerCmd cmd = new ControllerCmd("C:\\");
         Scanner sc = new Scanner(System.in);
-        String var = "";
-        
+        String var = "";               
+        String aux = "";
         do{
             System.out.print(cmd.Archivo + " ");
             var = sc.nextLine();
             
-            switch(var){
-                case "dir":
+            Options op = command(var);
+            
+            switch(op){
+                case vacio:                    
+                    break;
+                case dir:
                     cmd.dir();
                     break;
-                case "SOCOPRO":
-                    cmd.nextFolder(var);
+                case cd:
+                    aux = var.split(" ")[1];
+                    cmd.nextFolder(aux);
+                    aux = "";
                     break;
-                case "end":
+                case end:
                     System.out.println("...");
                     break;
+                case clear:
+                    for (int i = 0; i < 10000; i++) {
+                        System.out.println("\n");
+                    }                    
+                    break;
+                case toBack:
+                    cmd.toBackFolder();
+                    break;                        
                 default:
                     System.out.println("\"" + var + "\"" + " no se reconoce como un comando interno.");
                     break;
@@ -33,15 +57,24 @@ public class CmdProject {
             
         }while(!var.equals("end"));
         
-        /*
-        cmd.dir();
+    }
+    
+    static Options command(String cad){
         
-        cmd.nextFolder("SOCOPR");
-        System.out.println("");
-        cmd.dir();*/
+        String command[] = cad.split(" ");
         
+        if(command.length == 1 && command[0].equals(""))return Options.vacio;
         
+        if(command.length == 1  && command[0].equals("dir"))return Options.dir;
         
+        if(command.length == 2  && command[0].equals("cd"))return Options.cd;
         
+        if(command.length == 1  && command[0].equals(".."))return Options.toBack;
+        
+        if(command.length == 1  && command[0].equals("end"))return Options.end;
+        
+        if(command.length == 1  && command[0].equals("clear"))return Options.clear;
+                
+        return Options.undefined;
     }
 }

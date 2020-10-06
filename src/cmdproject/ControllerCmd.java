@@ -10,6 +10,10 @@ public class ControllerCmd {
         this.Archivo = archivo;
     }
     
+    public String ViewArchivo(){
+        return Archivo;
+    }
+    
     public void nextFolder(String FileName){
         Cmd cmd = new Cmd (Archivo);
         File[] listado = cmd.viewFolders();
@@ -24,6 +28,16 @@ public class ControllerCmd {
         
     }
     
+    public void toBackFolder(){
+        if(Archivo.equals("C:\\"))System.out.println("It is not posible to return");
+        else{
+            String[] aux = Archivo.split("\\\\");
+            Archivo = "";
+            for (int i = 0; i < aux.length-1; i++) 
+                Archivo += i == aux.length-2? aux[i]+"": aux[i]+"\\";
+            
+        }
+    }
     private boolean searchFolder(File FileList[], String FileName){
         for (int i = 0; i < FileList.length; i++) 
             if(FileList[i].isDirectory() && FileList[i].getName().equals(FileName))
