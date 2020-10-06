@@ -14,7 +14,8 @@ public class CmdProject {
         clear,
         toBack
     }
-    
+    //Este es un comentario
+    int variable = 0;
     public static void main(String[] args) {
                        
         ControllerCmd cmd = new ControllerCmd("C:\\");
