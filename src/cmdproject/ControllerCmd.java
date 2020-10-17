@@ -1,6 +1,16 @@
 package cmdproject;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.EOFException;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -128,6 +138,87 @@ public class ControllerCmd {
                 return true;
             }                
         return false;
+    }
+    public void copy (String FileName) throws IOException
+    {
+     Cmd cmd = new Cmd (Archivo);
+        File[] listado = cmd.viewFolders();
+        if(!copy(listado, FileName))
+            System.out.println("El sistema no puede encontrar el archivo especificado.\n");
+    
+    }
+     public boolean copy (File FileList[], String FileName) throws FileNotFoundException, IOException
+    {
+     for (int i = 0; i < FileList.length; i++) 
+            if(FileList[i].getName().equals(FileName)){
+                 File copia = new File(Archivo +"\\"+"CopiaDe"+FileList[i].getName());
+                 if(copia.exists())
+                 {
+                     System.out.println("Ese elemento ya posee una copia");
+                     return true;
+                 }
+                 copia.createNewFile();
+            try {
+                InputStream Leer = new FileInputStream(FileList[i]);
+                OutputStream Escribir = new FileOutputStream(copia);
+                byte[] bufer = new byte[1024];
+                int con;
+                while ((con = Leer.read(bufer)) > 0) {
+                    Escribir.write(bufer, 0, con);
+                }
+                Leer.close();
+                Escribir.close();
+                return true;
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+                return false;
+            }
+            }
+    return false;
+    }
+    public void contenido(String FileName) throws IOException
+    {
+    Cmd cmd = new Cmd (Archivo);
+        File[] listado = cmd.viewFolders();
+        if(!contenido(listado, FileName))
+            System.out.println("El sistema no puede encontrar el archivo especificado.\n");
+    }
+    
+    public boolean contenido(File FileList[], String FileName) throws FileNotFoundException, IOException
+    {
+     for (int i = 0; i < FileList.length; i++) 
+            if(FileList[i].getName().equals(FileName)){
+                String nombre= FileList[i].getName();
+            if(nombre.substring(nombre.length()-3).equals("txt"))
+          { FileReader  rd = new FileReader (FileList[i]);
+            BufferedReader bf = new BufferedReader (rd);
+        String cadena =" ";
+        while (cadena !=null) {
+            System.out.println(cadena);
+            cadena = bf.readLine();
+            }}
+           else{
+                try{
+                FileInputStream fi=new FileInputStream(FileList[i]);
+                DataInputStream dts=new DataInputStream(fi);
+                int c = 0;
+                while(true){
+                 byte dato=dts.readByte();
+                   System.out.print(String.format("%02X ", dato));
+                   c++;
+                   if(c==30)
+                   {System.out.println("");c=0;}
+                       }
+                }catch(EOFException e){
+ 
+                    System.out.println(".");
+                  }catch (IOException e) {
+                 System.out.println("Error " + e.toString());
+                    }
+                }
+                return true;
+            }
+    return false;
     }
     
     public void rename(String FileName, String NewFileName){

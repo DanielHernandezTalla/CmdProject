@@ -1,6 +1,7 @@
 package cmdproject;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class CmdProject {
@@ -19,12 +20,15 @@ public class CmdProject {
         rename,
         NewFile,
         NewDirectory,      
-        info
+        info,
+        contenido,
+        copy
     }
     //Este es un comentario
     int variable = 0;
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
                        
+
         ControllerCmd cmd = new ControllerCmd("C:\\");
         Scanner sc = new Scanner(System.in);
         String var = "";               
@@ -83,6 +87,12 @@ public class CmdProject {
                 case info:
                     cmd.details(var.split(" ")[1]);
                     break;
+                case contenido:
+                    cmd.contenido(var.split(" ")[1]);
+                    break;
+                case copy:
+                    cmd.copy(var.split(" ")[1]);
+                    break;
                 default:
                     System.out.println("\"" + var + "\"" + " no se reconoce como un comando interno.\n");
                     break;
@@ -96,6 +106,9 @@ public class CmdProject {
     static Options command(String cad){
         
         String command[] = cad.split(" ");
+        if(command.length == 2  && command[0].equals("contains"))return Options.contenido;
+        
+        if(command.length == 2  && command[0].equals("copy"))return Options.copy;
         
         if(command.length == 1 && command[0].equals(""))return Options.vacio;
         
