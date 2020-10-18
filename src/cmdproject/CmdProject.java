@@ -43,10 +43,18 @@ public class CmdProject {
                 case vacio:                    
                     break;
                 case dir:
-                    cmd.dir();
+                    try {
+                        cmd.dir();
+                    } catch (Exception e) {
+                        System.out.println("\n");
+                    }
                     break;
                 case details:
-                    cmd.details();
+                    try {
+                        cmd.details();
+                    } catch (Exception e) {
+                        System.out.println("\n");
+                    }                   
                     break;                    
                 case cd:
                     aux = var.split(" ")[1];
@@ -65,12 +73,20 @@ public class CmdProject {
                     cmd.toBackFolder();
                     break;                        
                 case help:
-                    System.out.printf("%-10s Acceder a un directorio.\n", Options.cd);
-                    System.out.printf("%-10s Limpia la consola.\n", Options.clear);
-                    System.out.printf("%-10s Muestra archivos y directorios de un directorio.\n", Options.dir);
-                    System.out.printf("%-10s Finaliza el progama.\n", Options.end);
-                    System.out.printf("%-10s Muestra cada comando y para que sirve cada uno de estos.\n", Options.help);
-                    System.out.printf("%-10s Regresa un directorio atras.\n", "...");
+                    System.out.printf("%-13s %-30s Acceder a un directorio.\n", Options.cd, "\"FileName\" -----------------");
+                    System.out.printf("%-13s %-30s Limpia la consola.\n", Options.clear, "----------------------------");
+                    System.out.printf("%-13s %-30s Muestra el contenido de un archivo.\n", "contains", "\"FileName\" -----------------");
+                    System.out.printf("%-13s %-30s Crea una coopia del un archivo.\n", Options.copy, "\"FileName\" -----------------");
+                    System.out.printf("%-13s %-30s Elimina el archivo seleccionado.\n", Options.delete, "\"FileName\" -----------------");
+                    System.out.printf("%-13s %-30s Muestra de forma detallada archivos y directorios de un directorio.\n", Options.details, "----------------------------");
+                    System.out.printf("%-13s %-30s Muestra archivos y directorios de un directorio.\n", Options.dir, "----------------------------");
+                    System.out.printf("%-13s %-30s Finaliza el progama.\n", Options.end, "----------------------------");
+                    System.out.printf("%-13s %-30s Muestra cada comando y para que sirve cada uno de estos.\n", Options.help, "----------------------------");
+                    System.out.printf("%-13s %-30s Muestra informacion detallada de un archivo o directorio.\n", Options.info, "\"FileName\" -----------------");
+                    System.out.printf("%-13s %-30s Crea un nuevo archivo, con el nombre especificado.\n", "new", "\"FileName\" -----------------");
+                    System.out.printf("%-13s %-30s Crea un nuevo directorio, con el nombre especificado.\n", "newDirectory", "\"FileName\" -----------------");
+                    System.out.printf("%-13s %-30s Renombra un archivo o directorio.\n", Options.rename, "\"FileName\" \"NewFileName\"  --");
+                    System.out.printf("%-13s %-30s Regresa un directorio atras.\n\n", "..", "----------------------------");
                     break;
                 case delete:
                     cmd.delete(var.split(" ")[1]);
